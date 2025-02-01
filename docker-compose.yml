@@ -12,6 +12,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    env_file:
+      - .env.development
+      - .env.docker
+    ports:
+      - 3000:3000
     volumes:
       - .:/app
     tmpfs:
