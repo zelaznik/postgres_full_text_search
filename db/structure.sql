@@ -31,7 +31,10 @@ CREATE TABLE public.ar_internal_metadata (
 
 CREATE TABLE public.articles (
     id integer NOT NULL,
-    data json NOT NULL
+    data json NOT NULL,
+    http_status integer,
+    body text,
+    error text
 );
 
 
@@ -102,5 +105,6 @@ ALTER TABLE ONLY public.schema_migrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250202183039'),
 ('20250202170827');
 
