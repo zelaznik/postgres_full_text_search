@@ -1,0 +1,55 @@
+require 'net/http'
+require 'uri'
+require 'thread'
+
+module Scraper
+  MAX_THREADS = 20
+
+  def fetch(url, redirect_limit = 30)
+    uri = URI(url)
+    response = Net::HTTP.get_response(uri)
+    if redirect_limit > 0 && response.is_a?(Net::HTTPRedirection)
+      fetch(response['location'], redirect_limit - 1)
+    else
+      response
+    end
+  end
+
+  def process(row)
+    response = fetch(row['url'])
+    params = {
+      status: response.code.to_i,
+      body: response.body,
+      id: row['id']
+    }
+
+    File.write("tmp/#{row['id']}.json", JSON.generate(params))
+  end
+
+  def call
+    data = ActiveRecord::Base.connection.execute <<~SQL
+      SELECT id, data ->> 'url' AS url
+      FROM articles
+      WHERE http_status IS NULL
+      AND data ->> 'url' != ''
+      LIMIT 1000
+    SQL
+
+    queue = Queue.new
+    data.each { |row| queue.push(row) }
+
+    threads = []
+    MAX_THREADS.times do
+      threads << Thread.new do
+        while not queue.empty?
+          begin
+            row = queue.pop(true)
+            process(row)
+          rescue ThreadError
+            break
+          end
+        end
+      end
+    end
+  end
+end
