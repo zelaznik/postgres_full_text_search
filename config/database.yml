@@ -26,7 +26,7 @@ default: &default
 
 development:
   <<: *default
-  database: pg_full_text_search_development
+  database: <%= ENV.fetch("DATABASE_NAME", "pg_full_text_search_development") %>
 
 test:
   <<: *default
