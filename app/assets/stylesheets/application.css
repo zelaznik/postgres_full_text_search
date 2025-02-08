@@ -8,3 +8,8 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+table {
+  max-width: calc(100% - 100px);
+  margin: 0 auto;
+}

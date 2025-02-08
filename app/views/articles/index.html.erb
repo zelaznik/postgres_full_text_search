@@ -1,0 +1,30 @@
+<h1 class="text-center">Hacker News Archive 2014</h1>
+
+<form action="/articles" method="get" class="form text-center">
+  <label>
+    Search Articles
+    <input name="search" value="<%= params[:search] %>"/>
+  </label>
+</form>
+
+<table class="table">
+  <caption>Search Results</caption>
+
+  <thead>
+    <tr>
+      <th scope="col">result_number</th>
+      <th scope="col">title</th>
+      <th scope="col">url</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% ArticlesHelper.search(params[:search]).each_with_index do |article, i| %>
+      <tr>
+        <td><%= i %></td>
+        <td><%= article['title'] %></td>
+        <td><a href="<%= article['url'] %>"><%= article['url'] %></a></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
