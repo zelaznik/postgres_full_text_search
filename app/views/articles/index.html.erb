@@ -18,12 +18,12 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody class="article-search-results">
     <% ArticlesHelper.search(params[:search]).each_with_index do |article, i| %>
       <tr>
         <td><%= i %></td>
         <td><%= article['highlighted_title'].html_safe %></td>
-        <td><a href="<%= article['url'] %>"><%= article['url'] %></a></td>
+        <td><a href="<%= article['url'] %>"><%= truncate_middle article['url'] %></a></td>
       </tr>
     <% end %>
   </tbody>

@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  helper_method :articles
+  helper_method :articles, :truncate_middle
 
   def index
   end
@@ -13,5 +13,13 @@ class ArticlesController < ApplicationController
     end
 
     @_articles[search_term]
+  end
+
+  def truncate_middle(text, max_length: 60)
+    if text.length < max_length
+      text
+    else
+      "#{text[...(max_length/2)]}...#{text[-(max_length/2)...]}"
+    end
   end
 end

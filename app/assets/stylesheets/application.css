@@ -17,3 +17,9 @@ table {
 em {
   background-color: yellow;
 }
+
+.article-search-results {
+  a {
+    text-overflow: ellipsis;
+  }
+}
