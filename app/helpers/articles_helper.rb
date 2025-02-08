@@ -21,15 +21,13 @@ module ArticlesHelper
       SELECT
         id,
         title,
+        url,
         ts_headline(
           'english',
           escape_html(title), -- this is untrusted user input
           query,
           'MaxFragments=10, MaxWords=7, MinWords=3, StartSel=<em>, StopSel=</em>'
-        ) highlighted_title,
-        url,
-        vector,
-        query
+        ) highlighted_title
 
       FROM
         q
