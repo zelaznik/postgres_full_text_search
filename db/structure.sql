@@ -70,7 +70,9 @@ CREATE TABLE public.articles (
     data json NOT NULL,
     http_status integer,
     body text,
-    error text
+    error text,
+    title text GENERATED ALWAYS AS ((data ->> 'title'::text)) STORED,
+    url text GENERATED ALWAYS AS ((data ->> 'url'::text)) STORED
 );
 
 
@@ -135,12 +137,27 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: idx_fts_articles_title; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_fts_articles_title ON public.articles USING gin (to_tsvector('english'::regconfig, title));
+
+
+--
+-- Name: idx_trigram_articles_title; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_trigram_articles_title ON public.articles USING gist (title public.gist_trgm_ops);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250208180757'),
 ('20250208180302'),
 ('20250208175804'),
 ('20250202183039'),
