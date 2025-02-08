@@ -1,5 +1,5 @@
 module ArticlesHelper
-  def self.sql(search_term, page: 1, results_per_page: 25)
+  def self.search_sql(search_term, page: 1, results_per_page: 25)
     sanitized = ActiveRecord::Base.sanitize_sql(['?', search_term ])
 
     params = {
@@ -23,7 +23,7 @@ module ArticlesHelper
         title,
         ts_headline(
           'english',
-          title,
+          escape_html(title), -- this is untrusted user input
           query,
           'MaxFragments=10, MaxWords=7, MinWords=3, StartSel=<em>, StopSel=</em>'
         ) highlighted_title,
@@ -47,7 +47,7 @@ module ArticlesHelper
   end
 
   def self.search(search_term, page: 1, results_per_page: 25)
-    raw_sql = sql(search_term, page:, results_per_page:)
+    raw_sql = search_sql(search_term, page:, results_per_page:)
     ActiveRecord::Base.connection.execute(raw_sql)
   end
 end

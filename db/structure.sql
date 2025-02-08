@@ -21,6 +21,30 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
 --
 
 COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
+
+
+--
+-- Name: escape_html(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.escape_html(input_text text) RETURNS text
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+DECLARE
+    escaped_text TEXT;
+BEGIN
+    -- Replace special HTML characters with their corresponding HTML entities
+    escaped_text := REPLACE(input_text, '&', '&amp;');
+    escaped_text := REPLACE(escaped_text, '<', '&lt;');
+    escaped_text := REPLACE(escaped_text, '>', '&gt;');
+    escaped_text := REPLACE(escaped_text, '"', '&quot;');
+    escaped_text := REPLACE(escaped_text, '''', '&#39;');
+
+    RETURN escaped_text;
+END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
