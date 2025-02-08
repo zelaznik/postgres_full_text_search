@@ -12,11 +12,12 @@ class ArticlesController < ApplicationController
         .offset((page-1) * page_size)
     end
 
-    @_articles[search_term]
+    @_articles[{ search_term:, page:, page_size: }]
   end
 
   def truncate_middle(text, max_length: 60)
-    if text.length < max_length
+    ellipsis_length = 3
+    if text.length < max_length - ellipsis_length
       text
     else
       "#{text[...(max_length/2)]}...#{text[-(max_length/2)...]}"
