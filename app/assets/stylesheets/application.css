@@ -13,3 +13,7 @@ table {
   max-width: calc(100% - 100px);
   margin: 0 auto;
 }
+
+em {
+  background-color: yellow;
+}

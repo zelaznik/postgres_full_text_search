@@ -22,7 +22,7 @@
     <% ArticlesHelper.search(params[:search]).each_with_index do |article, i| %>
       <tr>
         <td><%= i %></td>
-        <td><%= article['title'] %></td>
+        <td><%= article['highlighted_title'].html_safe %></td>
         <td><a href="<%= article['url'] %>"><%= article['url'] %></a></td>
       </tr>
     <% end %>
