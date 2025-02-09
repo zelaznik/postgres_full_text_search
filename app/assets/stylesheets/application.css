@@ -20,6 +20,8 @@ em {
 }
 
 form {
+  margin-bottom: 1.5em;
+
   label {
     font-weight: bold;
   }
