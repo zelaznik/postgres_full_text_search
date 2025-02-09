@@ -1,5 +1,7 @@
+require 'pry'
+
 class ArticlesController < ApplicationController
-  helper_method :articles, :truncate_middle
+  helper_method :articles, :truncate_middle, :search_params
 
   def index
   end
@@ -22,5 +24,10 @@ class ArticlesController < ApplicationController
     else
       "#{text[...(max_length/2)]}...#{text[-(max_length/2)...]}"
     end
+  end
+
+  def search_params
+    params
+      .permit(:search, :advanced)
   end
 end

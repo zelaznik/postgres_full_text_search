@@ -9,17 +9,33 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
-table {
+table, form {
   max-width: calc(100% - 100px);
   margin: 0 auto;
 }
 
 em {
   background-color: yellow;
+  font-weight: bold;
+}
+
+form {
+  label {
+    font-weight: bold;
+  }
+
+  input {
+    font-size: 1.5em;
+  }
 }
 
 .article-search-results {
   a {
     text-overflow: ellipsis;
   }
+}
+
+.search-param {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }

@@ -1,10 +1,27 @@
 <h1 class="text-center">Hacker News Archive 2014</h1>
 
-<form action="/articles" method="get" class="form text-center">
-  <label>
-    Search Articles
-    <input name="search" value="<%= params[:search] %>"/>
-  </label>
+<form action="/articles" method="get" class="form">
+  <div class="search-param form-group">
+    <label for="search">
+      Search Articles
+    </label>
+    <input  class="form-control"
+            name="search"
+            id="search"
+            value="<%= search_params[:search] %>"
+    />
+  </div>
+
+  <div class="search-param">
+    <label for="advanced">Advanced Search</label>
+    <input  id="advanced"
+            name="advanced"
+            type="checkbox"
+            <%= search_params[:advanced].present? ? "checked=true" : nil %>
+    />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <table class="table">
@@ -19,7 +36,7 @@
   </thead>
 
   <tbody class="article-search-results">
-    <% ArticlesHelper.search(params[:search]).each_with_index do |article, i| %>
+    <% ArticlesHelper.search(search_params[:search], advanced: search_params[:advanced]).each_with_index do |article, i| %>
       <tr>
         <td><%= i %></td>
         <td><%= article['highlighted_title'].html_safe %></td>
