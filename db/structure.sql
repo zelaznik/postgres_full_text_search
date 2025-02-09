@@ -24,6 +24,20 @@ COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching
 
 
 --
+-- Name: unaccent; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS unaccent WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION unaccent; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
+
+
+--
 -- Name: escape_html(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -157,6 +171,7 @@ CREATE INDEX idx_trigram_articles_title ON public.articles USING gist (title pub
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250208214532'),
 ('20250208180757'),
 ('20250208180302'),
 ('20250208175804'),
