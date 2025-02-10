@@ -73,6 +73,15 @@ END;
 $$;
 
 
+--
+-- Name: my_thesaurus; Type: TEXT SEARCH DICTIONARY; Schema: public; Owner: -
+--
+
+CREATE TEXT SEARCH DICTIONARY public.my_thesaurus (
+    TEMPLATE = pg_catalog.thesaurus,
+    dictfile = 'my_thesaurus', dictionary = 'english_stem' );
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -245,6 +254,7 @@ CREATE UNIQUE INDEX idx_uniq_search_terms ON public.search_terms USING btree (lo
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250210135104'),
 ('20250209030205'),
 ('20250209024658'),
 ('20250208214532'),

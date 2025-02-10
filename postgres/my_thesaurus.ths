@@ -1,0 +1,14 @@
+# WARNING:
+# IF YOU CHANGE THIS FILE YOU NEED TO REBUILD THE POSTGRES DOCKER IMAGE
+
+# Theasurus config file. Character ':' separates string from replacement, eg
+# sample-words : substitute-words
+#
+# Any substitute-word can be marked by preceding '*' character,
+# which means do not lexize this word
+# Docs: http://www.sai.msu.su/~megera/oddmuse/index.cgi/Thesaurus_dictionary
+
+high blood pressure : hypertension
+low blood pressure : hypotension
+high blood sugar : hyperglycemia
+low blood sugar : hypoglycemia
