@@ -10,6 +10,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION fuzzystrmatch; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
+
+
+--
 -- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -120,10 +134,48 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: search_terms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.search_terms (
+    id integer NOT NULL,
+    term text NOT NULL,
+    frequency integer NOT NULL
+);
+
+
+--
+-- Name: search_terms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.search_terms_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: search_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.search_terms_id_seq OWNED BY public.search_terms.id;
+
+
+--
 -- Name: articles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.articles ALTER COLUMN id SET DEFAULT nextval('public.articles_id_seq'::regclass);
+
+
+--
+-- Name: search_terms id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.search_terms ALTER COLUMN id SET DEFAULT nextval('public.search_terms_id_seq'::regclass);
 
 
 --
@@ -151,10 +203,25 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: search_terms search_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.search_terms
+    ADD CONSTRAINT search_terms_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: idx_fts_articles_title; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_fts_articles_title ON public.articles USING gin (to_tsvector('english'::regconfig, title));
+
+
+--
+-- Name: idx_search_terms; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_search_terms ON public.search_terms USING gist (term public.gist_trgm_ops);
 
 
 --
@@ -165,12 +232,21 @@ CREATE INDEX idx_trigram_articles_title ON public.articles USING gist (title pub
 
 
 --
+-- Name: idx_uniq_search_terms; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX idx_uniq_search_terms ON public.search_terms USING btree (lower(term));
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250209030205'),
+('20250209024658'),
 ('20250208214532'),
 ('20250208180757'),
 ('20250208180302'),
