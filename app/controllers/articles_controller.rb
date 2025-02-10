@@ -21,7 +21,8 @@ class ArticlesController < ApplicationController
   end
 
   def suggestions_are_different?
-    CGI.escapeHTML(params[:search]) != suggestions
+    search_params[:search].present? && \
+    CGI.escapeHTML(search_params[:search]) != suggestions
   end
 
   def suggestions
