@@ -9,7 +9,7 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
-table, form {
+table, form, .alert {
   max-width: calc(100% - 100px);
   margin: 0 auto;
 }

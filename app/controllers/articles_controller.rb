@@ -1,20 +1,26 @@
 require 'pry'
 
 class ArticlesController < ApplicationController
-  helper_method :articles, :truncate_middle, :search_params
+  helper_method :articles, :truncate_middle, :search_params, :suggestions
 
   def index
   end
 
-  def articles(search_term, page: 1, page_size: 25)
-    @_articles ||= Hash.new do |h,k|
-      h[k] = Article
-        .search(search_term)
-        .limit(page_size)
-        .offset((page-1) * page_size)
+  def articles
+    @_articles ||= begin
+      ArticlesHelper
+        .search(
+          search_params[:search],
+          advanced: search_params[:advanced]
+        )
     end
+  end
 
-    @_articles[{ search_term:, page:, page_size: }]
+  def suggestions
+    @_suggestions ||= begin
+      ArticlesHelper
+        .formatted_suggestions(search_params[:search])
+    end
   end
 
   def truncate_middle(text, max_length: 60)

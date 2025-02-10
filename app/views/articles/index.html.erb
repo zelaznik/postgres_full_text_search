@@ -24,6 +24,12 @@
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
+<% if articles.count == 0 %>
+  <div class="alert alert-warning">
+    Your query didn't return any results.  Did you mean "<%= suggestions.html_safe %>"?
+  </div>
+<% end %>
+
 <table class="table">
   <caption>Search Results</caption>
 
@@ -36,7 +42,7 @@
   </thead>
 
   <tbody class="article-search-results">
-    <% ArticlesHelper.search(search_params[:search], advanced: search_params[:advanced]).each_with_index do |article, i| %>
+    <% articles.each_with_index do |article, i| %>
       <tr>
         <td><%= i %></td>
         <td><%= article['highlighted_title'].html_safe %></td>
