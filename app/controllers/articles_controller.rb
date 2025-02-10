@@ -1,7 +1,11 @@
 require 'pry'
 
 class ArticlesController < ApplicationController
-  helper_method :articles, :truncate_middle, :search_params, :suggestions
+  helper_method :articles,
+    :search_params,
+    :suggestions,
+    :suggestions_are_different?,
+    :truncate_middle
 
   def index
   end
@@ -14,6 +18,10 @@ class ArticlesController < ApplicationController
           advanced: search_params[:advanced]
         )
     end
+  end
+
+  def suggestions_are_different?
+    CGI.escapeHTML(params[:search]) != suggestions
   end
 
   def suggestions

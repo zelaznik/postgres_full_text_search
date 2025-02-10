@@ -24,9 +24,9 @@
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
-<% if articles.count == 0 %>
+<% if articles.count == 0 && suggestions_are_different? %>
   <div class="alert alert-warning">
-    Your query didn't return any results.  Did you mean "<%= suggestions.html_safe %>"?
+    Did you mean "<%= suggestions.html_safe %>"?
   </div>
 <% end %>
 
