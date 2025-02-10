@@ -1,4 +1,10 @@
 FROM postgres:15.10-alpine3.21
 
+# Install base packages
+RUN apk update && \
+    apk add --no-cache \
+        ack \
+        vim
+
 # Copy custom thesaurus into Postgresql
 COPY ./postgres/my_thesaurus.ths /usr/local/share/postgresql/tsearch_data/my_thesaurus.ths
