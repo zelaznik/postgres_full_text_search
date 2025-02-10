@@ -46,6 +46,8 @@ module ArticlesHelper
         (
           parsed_query.alias = 'asciiword'
           AND
+          suggestions.id IS NOT NULL
+          AND
           suggestions.distance > 0
         ) is_replacement
 
