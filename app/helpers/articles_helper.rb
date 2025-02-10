@@ -46,7 +46,7 @@ module ArticlesHelper
         (
           parsed_query.alias = 'asciiword'
           AND
-          LOWER(TRIM(parsed_query.token)) != LOWER(TRIM(suggestions.term))
+          suggestions.distance > 0
         ) is_replacement
 
       FROM parsed_query
