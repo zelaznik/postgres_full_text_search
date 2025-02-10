@@ -62,12 +62,12 @@ module ArticlesHelper
     ActiveRecord::Base.connection.execute(raw_sql)
   end
 
-  def self.formatted_suggestions(search_term)
+  def self.formatted_suggestions(search_term, start_tag: "<b>", end_tag: "</b>")
     results = suggestions(search_term)
 
     results.map do |r|
       if r['is_replacement']
-        "<b>#{CGI.escapeHTML(r['term'])}</b>"
+        "#{start_tag}#{CGI.escapeHTML(r['term'])}#{end_tag}"
       else
         CGI.escapeHTML(r['token'])
       end
