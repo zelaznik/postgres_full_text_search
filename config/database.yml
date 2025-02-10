@@ -19,7 +19,7 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: <%= ENV["PGNAME"] %>
-  username: <%= ENV["PGUSERNAME"] %>
+  username: <%= ENV["PGUSER"] %>
   password: <%= ENV["PGPASSWORD"] %>
   host: <%= ENV["PGHOST"] %>
   port: <%= ENV["PGPORT"] %>
