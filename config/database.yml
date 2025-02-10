@@ -18,15 +18,15 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: <%= ENV["DATABASE_NAME"] %>
-  username: <%= ENV["DATABASE_USERNAME"] %>
-  password: <%= ENV["DATABASE_PASSWORD"] %>
-  host: <%= ENV["DATABASE_HOST"] %>
-  port: <%= ENV["DATABASE_PORT"] %>
+  database: <%= ENV["PGNAME"] %>
+  username: <%= ENV["PGUSERNAME"] %>
+  password: <%= ENV["PGPASSWORD"] %>
+  host: <%= ENV["PGHOST"] %>
+  port: <%= ENV["PGPORT"] %>
 
 development:
   <<: *default
-  database: <%= ENV.fetch("DATABASE_NAME", "pg_full_text_search_development") %>
+  database: <%= ENV.fetch("PGNAME", "pg_full_text_search_development") %>
 
 test:
   <<: *default
