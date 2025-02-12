@@ -22,11 +22,11 @@ words_with_trigram_counts AS (
     (SELECT COUNT(*) FROM unnest(right_trigrams)) as right_trigram_count,
     (
       SELECT COUNT(*)
-    FROM (
-      SELECT unnest(left_trigrams)
-      INTERSECT
-      SELECT unnest(right_trigrams)
-    ) as q
+      FROM (
+        SELECT unnest(left_trigrams)
+        INTERSECT
+        SELECT unnest(right_trigrams)
+      ) as q
     ) as joint_trigram_count
 
   FROM
