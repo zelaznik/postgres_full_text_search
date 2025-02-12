@@ -2,6 +2,7 @@ require 'pry'
 
 class ArticlesController < ApplicationController
   helper_method :articles,
+    :articles_error_message,
     :search_params,
     :suggestions,
     :suggestions_are_different?,
@@ -10,14 +11,26 @@ class ArticlesController < ApplicationController
   def index
   end
 
-  def articles
-    @_articles ||= begin
-      ArticlesHelper
+  def article_query
+    @_article_query ||= begin
+      results = ArticlesHelper
         .search(
           search_params[:search],
           advanced: search_params[:advanced]
         )
+
+      { success: true, results: results }
+    rescue StandardError => e
+      { error: true, error_message: e.message, results: [] }
     end
+  end
+
+  def articles_error_message
+    article_query[:error_message]
+  end
+
+  def articles
+    article_query[:results]
   end
 
   def suggestions_are_different?
